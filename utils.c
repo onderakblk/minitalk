@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oakbulak <oakbulak@student.42kocaeli.com.  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/04 12:06:03 by oakbulak          #+#    #+#             */
-/*   Updated: 2023/07/04 12:06:06 by oakbulak         ###   ########.fr       */
+/*   Created: 2023/08/12 11:31:18 by oakbulak          #+#    #+#             */
+/*   Updated: 2023/08/12 11:35:28 by oakbulak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minitalk.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
 
 void	ft_putnbr_fd(int n, int fd)
 {
@@ -29,4 +44,36 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(nb / 10, fd);
 		ft_putnbr_fd(nb % 10, fd);
 	}
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
+}
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+	int	tmp;
+
+	i = 0;
+	sign = 1;
+	tmp = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == 43 || str[i] == 45)
+	{
+		if (str[i] == 45)
+			sign *= -1;
+		i++;
+	}
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		tmp = (tmp * 10) + (str[i] - 48);
+		i++;
+	}
+	return (tmp * sign);
 }

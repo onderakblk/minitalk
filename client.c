@@ -40,6 +40,7 @@ int	main(int argc, char **argv)
 	{
 		pid = ft_atoi(argv[1]);
 		signal_push(pid, argv[2]);
+		signal_push(pid, "\n");
 	}
 	return (0);
 }

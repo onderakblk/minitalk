@@ -1,18 +1,30 @@
-NAME = libft.a
-LIBFT = libft
+RM = rm -rf
+CC = gcc
 FLAG = -Wall -Wextra -Werror
-all: $(NAME)
-		@gcc $(FLAG) server.c $(NAME) -o server
-		@gcc $(FLAG) client.c $(NAME) -o client
-$(NAME): $(LIBFT)
-		@make -C $(LIBFT)
-		@cp libft/libft.a .
-clean:
-		@make clean -C $(LIBFT)
-fclean: clean
-		@make fclean -C $(LIBFT)
-		@rm -rf $(NAME)
-		@rm -rf server client
-re: fclean all
+CMPL = $(CC) $(FLAG)
+CLIENT = @$(CMPL) client.c utils.c -o client
+SERVER = @$(CMPL) server.c utils.c -o server
+CLIENTBONUS = @$(CMPL) client_bonus.c utils.c -o client_bonus
+SERVERBONUS = @$(CMPL) server_bonus.c utils.c -o server_bonus
 
-.PHONY: clean fclean all re
+all: client server
+client:
+	$(CLIENT)
+server:
+	$(SERVER)
+bonus: client_bonus server_bonus
+client_bonus:
+	$(CLIENTBONUS)
+server_bonus:
+	$(SERVERBONUS)
+clean:
+	@$(RM) client server client_bonus server_bonus
+norm:
+	@norminette *.c *.h
+run: re
+	@./server
+brun: clean bonus
+	@./server_bonus
+fclean: clean
+re: clean all
+.PHONY: all bonus clean fclean re
